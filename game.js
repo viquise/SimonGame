@@ -42,25 +42,28 @@ function checkAnswer(currentLevel){
         var wrongAnswerSound = new Audio("./sounds/wrong.mp3");
         wrongAnswerSound.play();
         $("body").addClass("game-over");
-    }
+        setTimeout(function(){
+            $("body").removeClass("game-over");
+        }, 200);
+        $("h1").text("Game Over, Press any key to restart...");
+        restartGame();
 
+}
 }
 
 
 //Button colours being added to the array
 function nextSequence(){
-    userClickedPattern= [];
+    userClickedPattern = [];
     level++;
     $("#level-title").text("Level "+ level);
 
-
+    //function to select a random color
     var randomNumber = (Math.floor(Math.random()*4) + 1) - 1;
     var randomChosenColour = buttonColours[randomNumber];
     gamePattern.push(randomChosenColour);
     $("#"+randomChosenColour).delay(100).fadeOut().fadeIn("slow");
     playSound(randomChosenColour);
-
-
 }
 
 // Fuction To add animation once a button has been clicked
@@ -71,8 +74,15 @@ function animatePress(currentColor){
     }, 300)
 }
 
+//Play sound when right button is pressed
 function playSound(name){
     var audio = new Audio("./sounds/"+name+".mp3");
     audio.play();
 }
 
+// Function to restart the game 
+function restartGame(){
+    level = 0;
+    gamePattern = [];
+    started = false;
+}
